@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Expose port 5000 inside the container to port 3000 on the host
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./server/.env
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
